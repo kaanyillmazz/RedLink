@@ -1,9 +1,8 @@
 {
-  "ModelName": {
-    "fieldName": {
-      "<type>": {} | [],
-"hasMany": "Model",
-"belongsTo": "Model"
-}
-}
+  "name": {
+    "string": [
+      "Thor",
+      "Loki"
+    ]
+  }
 }
