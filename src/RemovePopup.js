@@ -12,7 +12,6 @@ import Fab from '@mui/material/Fab';
 import EditIcon from '@mui/icons-material/Edit';
 
 
-
 const AlertDialogNew = ({show}) => {
     const [open, setOpen] = React.useState(false);
 
@@ -29,10 +28,10 @@ const AlertDialogNew = ({show}) => {
     };
 
     let box;
-    if(show) {
-        box =  <Box sx={{ '& > :not(style)': { m: 1 }}}>
+    if (show) {
+        box = <Box sx={{'& > :not(style)': {m: 1}}}>
             <Fab size="small" color="secondary" aria-label="edit" style={{position: 'absolute'}}>
-                <DeleteOutlineIcon  onClick={handleClick}/>
+                <DeleteOutlineIcon onClick={handleClick}/>
             </Fab>
         </Box>
     }
@@ -65,9 +64,7 @@ const AlertDialogNew = ({show}) => {
     );
 
 
-
 }
-
 
 
 function AlertDialog(props) {
@@ -86,7 +83,7 @@ function AlertDialog(props) {
 
     return (
         <div>
-            <Box sx={{ '& > :not(style)': { m: 1 } }}>
+            <Box sx={{'& > :not(style)': {m: 1}}}>
                 <Fab color="secondary" aria-label="edit">
                     <EditIcon onClick={handleClick}/>
                 </Fab>
@@ -116,4 +113,5 @@ function AlertDialog(props) {
         </div>
     );
 }
+
 export default AlertDialogNew;

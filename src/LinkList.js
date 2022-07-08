@@ -7,13 +7,11 @@ import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import {Box, Grid, Paper} from '@mui/material'
-import { ListItemIcon } from '@mui/material';
+import {ListItemIcon} from '@mui/material';
 import Fab from '@mui/material/Fab';
 
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-
-
 
 
 import AlertDialogNew from "./RemovePopup";
@@ -30,7 +28,7 @@ function LinkList() {
     </div>
 
     let pointsBox;
-    pointsBox = <Paper variant="outlined" square style={{padding: "1px", marginRight: "10px"}} >
+    pointsBox = <Paper variant="outlined" square style={{padding: "1px", marginRight: "10px"}}>
         <Grid container textAlign="center" justifyContent="center" style={{minHeight: 80, maxHeight: 80, minWidth: 80}}>
             <Grid item>
                 <h1 style={{fontSize: "medium"}}>X</h1>
@@ -78,8 +76,9 @@ function LinkList() {
             </ListItem>
             <Divider variant="inset" component="li"/>
             <ListItem alignItems="flex-start">
-                <Paper variant="outlined" square style={{padding: "1px", marginRight: "10px"}} >
-                    <Grid container textAlign="center" justifyContent="center" style={{minHeight: 80, maxHeight: 80, minWidth: 80}}>
+                <Paper variant="outlined" square style={{padding: "1px", marginRight: "10px"}}>
+                    <Grid container textAlign="center" justifyContent="center"
+                          style={{minHeight: 80, maxHeight: 80, minWidth: 80}}>
                         <Grid item>
                             <h1 style={{fontSize: "medium"}}>X</h1>
                             <h1 style={{fontSize: "medium"}}>Points</h1>
@@ -105,8 +104,9 @@ function LinkList() {
             </ListItem>
             <Divider variant="inset" component="li"/>
             <ListItem alignItems="flex-start">
-                <Paper variant="outlined" square style={{padding: "1px", marginRight: "10px"}} >
-                    <Grid container textAlign="center" justifyContent="center" style={{minHeight: 80, maxHeight: 80, minWidth: 80}}>
+                <Paper variant="outlined" square style={{padding: "1px", marginRight: "10px"}}>
+                    <Grid container textAlign="center" justifyContent="center"
+                          style={{minHeight: 80, maxHeight: 80, minWidth: 80}}>
                         <Grid item>
                             <h1 style={{fontSize: "medium"}}>X</h1>
                             <h1 style={{fontSize: "medium"}}>Points</h1>
