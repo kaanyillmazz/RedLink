@@ -1,6 +1,6 @@
 {
 
-  "Post": { "title": { "regexp": "https://[A-Z][a-z]{5,10}\\.com" }, "comments": { "hasMany": "Comment" } },
+  "Post": { "title": { "regexp": "https://[A-Z][a-z]{5,10}\\.com" },"likes": { "int": { "min": 0, "max": 1000000 } }, "comments": { "hasMany": "Comment" } },
   "Comment": { "body": { "string": {} }, "post": { "belongsTo": "Post"} }
 
 }
