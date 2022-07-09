@@ -114,6 +114,8 @@ const MyListItem = ({index}) => {
 
     let ListItem0;
     if (post0) {
+        let str = post0.title;
+        let str1 = str.slice(8, -4);
         ListItem0 = <ListItem alignItems="flex-start" onMouseEnter={handleFocusEnter} onMouseLeave={handleFocusLeave}>
             <div>
                 <Fab size="small"
@@ -137,10 +139,10 @@ const MyListItem = ({index}) => {
             </Paper>
 
             <ListItemText
-                primary={post0.title}
+                primary={str1}
                 secondary={
                     <React.Fragment>
-                        {"I'll be in your neighborhood doing errands this"}
+                        {str}
                     </React.Fragment>
                 }/>
 
