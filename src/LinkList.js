@@ -99,7 +99,6 @@ function LinkList() {
     );
 }
 
-
 const MyListItem = ({index}) => {
     const handleFocusEnter = () => {
         setOpen(true);
@@ -115,7 +114,7 @@ const MyListItem = ({index}) => {
     let ListItem0;
     if (post0) {
         let str = post0.title;
-        let str1 = str.slice(8, -4);
+        let str1 = "https://"+str+".com"
         ListItem0 = <ListItem alignItems="flex-start" onMouseEnter={handleFocusEnter} onMouseLeave={handleFocusLeave}>
             <div>
                 <Fab size="small"
@@ -139,10 +138,10 @@ const MyListItem = ({index}) => {
             </Paper>
 
             <ListItemText
-                primary={str1}
+                primary={str}
                 secondary={
                     <React.Fragment>
-                        {str}
+                        {str1}
                     </React.Fragment>
                 }/>
 
