@@ -1,4 +1,6 @@
 import React from 'react'
+import axios from "axios";
+
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import Divider from '@mui/material/Divider';
@@ -13,32 +15,30 @@ import Fab from '@mui/material/Fab';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
-
 import AlertDialogNew from "./RemovePopup";
 
+const client = axios.create({
+    baseURL: "https://mockend.com/kaanyillmazz/redlink/posts"
+});
+
+let postsHolder = [];
+
+
 function LinkList() {
-    let fab;
-    fab = <div>
-        <Fab size="small" style={{position: 'absolute', right: 0, bottom: 5, height: 20, width: 20, minHeight: 20}}>
-            <KeyboardArrowUpIcon/>
-        </Fab>
-        <Fab size="small" style={{position: 'absolute', right: 26, bottom: 5, height: 20, width: 20, minHeight: 20}}>
-            <KeyboardArrowDownIcon/>
-        </Fab>
-    </div>
-
-    let pointsBox;
-    pointsBox = <Paper variant="outlined" square style={{padding: "1px", marginRight: "10px"}}>
-        <Grid container textAlign="center" justifyContent="center" style={{minHeight: 80, maxHeight: 80, minWidth: 80}}>
-            <Grid item>
-                <h1 style={{fontSize: "medium"}}>X</h1>
-                <h1 style={{fontSize: "medium"}}>Points</h1>
-            </Grid>
-        </Grid>
-    </Paper>
-
-
     const [open, setOpen] = React.useState(false);
+    const [posts, setPosts] = React.useState([]);
+
+    React.useEffect(() => {
+        client.get("").then((response) => {
+            setPosts(response.data.splice(1, 3));
+        }).catch(error => {
+            console.log(error)
+        });
+    }, []);
+
+    console.log(posts);
+    console.log(posts.at(0));
+    postsHolder = posts;
 
     const handleFocusEnter = () => {
         setOpen(true);
@@ -47,99 +47,108 @@ function LinkList() {
         setOpen(false);
     };
 
+    let listItem;
+    if (posts) {
+        listItem = posts.map(post => {
+            return (
+                <ListItem alignItems="flex-start" onMouseEnter={handleFocusEnter} onMouseLeave={handleFocusLeave}>
+                    <div>
+                        <Fab size="small"
+                             style={{position: 'absolute', right: 0, bottom: 5, height: 20, width: 20, minHeight: 20}}>
+                            <KeyboardArrowUpIcon/>
+                        </Fab>
+                        <Fab size="small"
+                             style={{position: 'absolute', right: 26, bottom: 5, height: 20, width: 20, minHeight: 20}}>
+                            <KeyboardArrowDownIcon/>
+                        </Fab>
+                    </div>
+                    <Paper variant="outlined" square style={{padding: "1px", marginRight: "10px"}}>
+                        <Grid container textAlign="center" justifyContent="center"
+                              style={{minHeight: 80, maxHeight: 80, minWidth: 80}}>
+                            <Grid item>
+                                <h1 style={{fontSize: "medium"}}>X</h1>
+                                <h1 style={{fontSize: "medium"}}>Points</h1>
+                            </Grid>
+                        </Grid>
+                    </Paper>
+                    <ListItemText
+                        primary={post.title}
+                        secondary={
+                            <React.Fragment>
+                                {"I'll be in your neighborhood doing errands this"}
+                            </React.Fragment>
+                        }/>
+
+                    <AlertDialogNew show={open}/>
+
+                </ListItem>
+            )
+        });
+    }
+
     return (
         <List sx={{width: '100%', maxWidth: 360, bgcolor: 'background.paper'}}>
-            <ListItem alignItems="flex-start" onMouseEnter={handleFocusEnter} onMouseLeave={handleFocusLeave}>
 
-                {fab}
-                {pointsBox}
-
-                <ListItemText
-                    primary="Brunch this weekend?"
-                    secondary={
-                        <React.Fragment>
-                            <Typography
-                                sx={{display: 'inline'}}
-                                component="span"
-                                variant="body2"
-                                color="text.primary"
-                            >
-                                Ali Connors
-                            </Typography>
-                            {" — I'll be in your neighborhood doing errands this…"}
-                        </React.Fragment>
-                    }
-                />
-
-                <AlertDialogNew show={open}/>
-
-            </ListItem>
+            <MyListItem index={0}/>
             <Divider variant="inset" component="li"/>
-            <ListItem alignItems="flex-start">
-                <Paper variant="outlined" square style={{padding: "1px", marginRight: "10px"}}>
-                    <Grid container textAlign="center" justifyContent="center"
-                          style={{minHeight: 80, maxHeight: 80, minWidth: 80}}>
-                        <Grid item>
-                            <h1 style={{fontSize: "medium"}}>X</h1>
-                            <h1 style={{fontSize: "medium"}}>Points</h1>
-                        </Grid>
-                    </Grid>
-                </Paper>
-                <ListItemText
-                    primary="Summer BBQ"
-                    secondary={
-                        <React.Fragment>
-                            <Typography
-                                sx={{display: 'inline'}}
-                                component="span"
-                                variant="body2"
-                                color="text.primary"
-                            >
-                                to Scott, Alex, Jennifer
-                            </Typography>
-                            {" — Wish I could come, but I'm out of town this…"}
-                        </React.Fragment>
-                    }
-                />
-            </ListItem>
+            <MyListItem index={1}/>
             <Divider variant="inset" component="li"/>
-            <ListItem alignItems="flex-start">
-                <Paper variant="outlined" square style={{padding: "1px", marginRight: "10px"}}>
-                    <Grid container textAlign="center" justifyContent="center"
-                          style={{minHeight: 80, maxHeight: 80, minWidth: 80}}>
-                        <Grid item>
-                            <h1 style={{fontSize: "medium"}}>X</h1>
-                            <h1 style={{fontSize: "medium"}}>Points</h1>
-                        </Grid>
+            <MyListItem index={2}/>
 
-
-                    </Grid>
-
-                </Paper>
-                <ListItemText
-                    primary="Oui Oui"
-                    secondary={
-                        <React.Fragment>
-                            <Typography
-                                sx={{display: 'inline'}}
-                                component="span"
-                                variant="body2"
-                                color="text.primary"
-                            >
-                                Sandra Adams
-                            </Typography>
-                            {' — Do you have Paris recommendations? Have you ever…'}
-                        </React.Fragment>
-                    }
-                />
-            </ListItem>
         </List>
     );
-
 }
 
-function MyListItem() {
-    return false;
+
+const MyListItem = ({index}) => {
+    const handleFocusEnter = () => {
+        setOpen(true);
+    };
+    const handleFocusLeave = () => {
+        setOpen(false);
+    };
+
+    const [open, setOpen] = React.useState(false);
+
+    const post0 = postsHolder.at(index);
+
+    let ListItem0;
+    if (post0) {
+        ListItem0 = <ListItem alignItems="flex-start" onMouseEnter={handleFocusEnter} onMouseLeave={handleFocusLeave}>
+            <div>
+                <Fab size="small"
+                     style={{position: 'absolute', right: 0, bottom: 5, height: 20, width: 20, minHeight: 20}}>
+                    <KeyboardArrowUpIcon/>
+                </Fab>
+                <Fab size="small"
+                     style={{position: 'absolute', right: 26, bottom: 5, height: 20, width: 20, minHeight: 20}}>
+                    <KeyboardArrowDownIcon/>
+                </Fab>
+            </div>
+
+            <Paper variant="outlined" square style={{padding: "1px", marginRight: "10px"}}>
+                <Grid container textAlign="center" justifyContent="center"
+                      style={{minHeight: 80, maxHeight: 80, minWidth: 80}}>
+                    <Grid item>
+                        <h1 style={{fontSize: "medium"}}>X</h1>
+                        <h1 style={{fontSize: "medium"}}>Points</h1>
+                    </Grid>
+                </Grid>
+            </Paper>
+
+            <ListItemText
+                primary={post0.title}
+                secondary={
+                    <React.Fragment>
+                        {"I'll be in your neighborhood doing errands this"}
+                    </React.Fragment>
+                }/>
+
+            <AlertDialogNew show={open}/>
+
+        </ListItem>
+    }
+    return ListItem0;
 }
 
 export default LinkList;
