@@ -1,7 +1,6 @@
 {
 
-  "Post": { "title": { "loremWord": {} },"likes": { "int": { "min": 0, "max": 15 } }, "comments": { "hasMany": "Comment" } },
-  "Comment": { "body": { "string": {} }, "post": { "belongsTo": "Post"} }
+  "Post": { "title": { "loremWord": {} },"likes": { "int": { "min": 0, "max": 15 } }, "post": { "belongsTo": "Post"} }
 
 }
 
