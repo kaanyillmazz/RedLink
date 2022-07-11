@@ -5,11 +5,7 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import Divider from '@mui/material/Divider';
 import ListItemText from '@mui/material/ListItemText';
-import ListItemAvatar from '@mui/material/ListItemAvatar';
-import Avatar from '@mui/material/Avatar';
-import Typography from '@mui/material/Typography';
 import {Box, Grid, Paper} from '@mui/material'
-import {ListItemIcon} from '@mui/material';
 import Fab from '@mui/material/Fab';
 
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
@@ -131,7 +127,7 @@ const MyListItem = ({index}) => {
                 <Grid container textAlign="center" justifyContent="center"
                       style={{minHeight: 80, maxHeight: 80, minWidth: 80}}>
                     <Grid item>
-                        <h1 style={{fontSize: "medium"}}>X</h1>
+                        <h1 style={{fontSize: "medium"}}>{post0.likes}</h1>
                         <h1 style={{fontSize: "medium"}}>Points</h1>
                     </Grid>
                 </Grid>
