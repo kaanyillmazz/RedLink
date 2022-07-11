@@ -17,17 +17,14 @@ const client = axios.create({
     baseURL: "https://mockend.com/kaanyillmazz/redlink/posts"
 });
 
-let obj = function(id, title, likes){
+let obj = function(id, title, points){
     this.id = id;
     this.title = title;
-    this.likes = likes;
+    this.points = points;
 }
-let obj1 = new obj(1,"yes", "10");
-let obj2 = new obj(2,"yes", "10");
-let obj3 = new obj(3,"yes", "10");
-
-
-
+let obj1 = new obj(1,"Loading...", "0");
+let obj2 = new obj(2,"Loading...", "0");
+let obj3 = new obj(3,"Loading...", "0");
 
 let postsHolder = [obj1,obj2,obj3];
 
@@ -65,7 +62,31 @@ function LinkList() {
         const [open, setOpen] = React.useState(false);
         const [post, setPost] = React.useState(myObject);
 
+        const likeHandler = async () => {
+            const id = post.id;
+            const article = {id: id, points: post.points+1, title: post.title};
+            const response = await client.put(`/${id}`, article);
+            response.data = {id: id, points: post.points+1, title: post.title}
+            setPost(response.data);
+            console.log(response.data);
 
+        };
+
+        const dislikeHandler = async () => {
+            const id = post.id;
+            const article = {id: id, points: post.points-1, title: post.title};
+            const response = await client.put(`/${id}`, article);
+            response.data = {id: id, points: post.points-1, title: post.title}
+            setPost(response.data);
+            console.log(response.data);
+        };
+
+        const deleteHandler = async () => {
+            const id = post.id;
+            const response = await client.delete(`/${id}`);
+            setPost(response.data);
+            console.log(response.data);
+        };
 
         let ListItem0;
         if (post) {
@@ -73,11 +94,13 @@ function LinkList() {
             let str1 = "https://"+str+".com"
             ListItem0 = <ListItem alignItems="flex-start" onMouseEnter={handleFocusEnter} onMouseLeave={handleFocusLeave}>
                 <div>
-                    <Fab size="small"
+                    <Fab onClick={function() { likeHandler(); }}
+                        size="small"
                          style={{position: 'absolute', right: 0, bottom: 5, height: 20, width: 20, minHeight: 20}}>
                         <KeyboardArrowUpIcon/>
                     </Fab>
-                    <Fab size="small"
+                    <Fab onClick={function() { dislikeHandler(); }}
+                        size="small"
                          style={{position: 'absolute', right: 26, bottom: 5, height: 20, width: 20, minHeight: 20}}>
                         <KeyboardArrowDownIcon/>
                     </Fab>
@@ -87,7 +110,7 @@ function LinkList() {
                     <Grid container textAlign="center" justifyContent="center"
                           style={{minHeight: 80, maxHeight: 80, minWidth: 80}}>
                         <Grid item>
-                            <h1 style={{fontSize: "medium"}}>{post.likes}</h1>
+                            <h1 style={{fontSize: "medium"}}>{post.points}</h1>
                             <h1 style={{fontSize: "medium"}}>Points</h1>
                         </Grid>
                     </Grid>
@@ -107,7 +130,6 @@ function LinkList() {
         }
         return ListItem0;
     }
-
 
 
     return (
