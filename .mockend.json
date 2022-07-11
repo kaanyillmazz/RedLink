@@ -1,6 +1,6 @@
 {
 
-  "Post": { "title": { "loremWord": {} },"likes": { "int": { "min": 0, "max": 15 } }, "post": { "belongsTo": "Post"} }
+  "Post": { "title": { "loremWord": {} },"points": { "int": { "min": 0, "max": 50 } } , "post": { "belongsTo": "Post"} }
 
 }
 
