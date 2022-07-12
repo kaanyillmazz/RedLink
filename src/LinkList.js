@@ -59,7 +59,7 @@ function LinkList() {
     console.log(posts);
     console.log(posts.at(0));
 
-    window.localStorage.setItem('posts', JSON.stringify(posts));
+    window.sessionStorage.setItem('posts', JSON.stringify(posts));
 
     const MyListItem = ({index}) => {
         const AlertDialogNew = ({show}) => {
@@ -118,8 +118,13 @@ function LinkList() {
             const article = {id: id, points: post.points + 1, title: post.title};
             const response = await client.put(`/${id}`, article);
             response.data = {id: id, points: post.points + 1, title: post.title}
+            postsHolder[index] = response.data;
+            window.sessionStorage.clear();
+            window.sessionStorage.setItem('posts', JSON.stringify(postsHolder));
             setPost(response.data);
-            console.log(response.data);
+
+
+
         };
 
         const dislikeHandler = async () => {
@@ -127,20 +132,32 @@ function LinkList() {
             const article = {id: id, points: post.points - 1, title: post.title};
             const response = await client.put(`/${id}`, article);
             response.data = {id: id, points: post.points - 1, title: post.title}
+            postsHolder[index] = response.data;
+            window.sessionStorage.clear();
+            window.sessionStorage.setItem('posts', JSON.stringify(postsHolder));
             setPost(response.data);
-            console.log(response.data);
+
         };
 
         const deleteHandler = async () => {
             const id = post.id;
             const response = await client.delete(`/${id}`);
+            postsHolder[index] = response.data;
+            window.sessionStorage.clear();
+            window.sessionStorage.setItem('posts', JSON.stringify(postsHolder));
             setPost(response.data);
-            console.log(response.data);
+
         };
 
+
+        let localHolder = JSON.parse(window.sessionStorage.getItem('posts'));
+let post1 = localHolder.at(index);
+
+
+
         let ListItem0;
-        if (post) {
-            let str = post.title;
+        if (post1) {
+            let str = post1.title;
             let str1 = "https://" + str + ".com"
             ListItem0 =
                 <ListItem alignItems="flex-start" onMouseEnter={handleFocusEnter} onMouseLeave={handleFocusLeave}>
@@ -160,7 +177,7 @@ function LinkList() {
                         <Grid container textAlign="center" justifyContent="center"
                               style={{minHeight: 80, maxHeight: 80, minWidth: 80}}>
                             <Grid item>
-                                <h1 style={{fontSize: "medium"}}>{post.points}</h1>
+                                <h1 style={{fontSize: "medium"}}>{post1.points}</h1>
                                 <h1 style={{fontSize: "medium"}}>Points</h1>
                             </Grid>
                         </Grid>
@@ -179,6 +196,8 @@ function LinkList() {
         return ListItem0;
     }
 
+
+    
     return (
         <List sx={{width: '100%', maxWidth: 360, bgcolor: 'background.paper'}}>
 
