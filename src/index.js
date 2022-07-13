@@ -32,7 +32,7 @@ root.render(<React.StrictMode>
 
     <Grid container spacing={2}>
         <Grid item xs={12}>
-            <SubmitALinkComp/>
+
         </Grid>
     </Grid>
 

@@ -1,4 +1,3 @@
-import React from 'react'
 import axios from "axios";
 
 import List from '@mui/material/List';
@@ -8,22 +7,22 @@ import Divider from '@mui/material/Divider';
 import ListItemText from '@mui/material/ListItemText';
 import {Box, Grid, Paper} from '@mui/material'
 import Fab from '@mui/material/Fab';
-
-
+import AddIcon from '@mui/icons-material/Add';
+import {IconButton} from '@mui/material'
+import * as React from 'react';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import {useRef} from "react";
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import EditIcon from '@mui/icons-material/Edit';
 
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-
-
-import Button from "@mui/material/Button";
-import Paginator from "./Pagination";
 
 const client = axios.create({
     baseURL: "https://mockend.com/kaanyillmazz/redlink/posts"
@@ -84,24 +83,22 @@ function LinkList() {
                     </Fab>
                 </Box>
             }
-            return (
-                <div>
-                    {box}
-                    <Dialog
-                        open={open}
-                        onClose={handleClose}
-                        aria-labelledby="alert-dialog-title"
-                        aria-describedby="alert-dialog-description">
-                        <DialogTitle id="alert-dialog-title">
-                            {"Are you sure you want to delete this?"}
-                        </DialogTitle>
-                        <DialogActions>
-                            <Button onClick={handleClose}>No</Button>
-                            <Button onClick={handleDelete} autoFocus> Yes </Button>
-                        </DialogActions>
-                    </Dialog>
-                </div>
-            );
+            return (<div>
+                {box}
+                <Dialog
+                    open={open}
+                    onClose={handleClose}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description">
+                    <DialogTitle id="alert-dialog-title">
+                        {"Are you sure you want to delete this?"}
+                    </DialogTitle>
+                    <DialogActions>
+                        <Button onClick={handleClose}>No</Button>
+                        <Button onClick={handleDelete} autoFocus> Yes </Button>
+                    </DialogActions>
+                </Dialog>
+            </div>);
         }
 
         const handleFocusEnter = () => {
@@ -126,7 +123,7 @@ function LinkList() {
             const id = posts[index].id;
             const points = posts[index].points
             const title = posts[index].title
-            const article = {id: id,  title: title, points: points - 1};
+            const article = {id: id, title: title, points: points - 1};
             const response = await client.put(`/${id}`, article);
             postsHolder[index] = article;
             setPosts(postsHolder);
@@ -148,12 +145,16 @@ function LinkList() {
             ListItem0 =
                 <ListItem alignItems="flex-start" onMouseEnter={handleFocusEnter} onMouseLeave={handleFocusLeave}>
                     <div>
-                        <Fab onClick={function () {likeHandler();}}
+                        <Fab onClick={function () {
+                            likeHandler();
+                        }}
                              size="small"
                              style={{position: 'absolute', right: 0, bottom: 5, height: 20, width: 20, minHeight: 20}}>
                             <KeyboardArrowUpIcon/>
                         </Fab>
-                        <Fab onClick={function () {dislikeHandler();}}
+                        <Fab onClick={function () {
+                            dislikeHandler();
+                        }}
                              size="small"
                              style={{position: 'absolute', right: 26, bottom: 5, height: 20, width: 20, minHeight: 20}}>
                             <KeyboardArrowDownIcon/>
@@ -170,11 +171,9 @@ function LinkList() {
                     </Paper>
                     <ListItemText
                         primary={str}
-                        secondary={
-                            <React.Fragment>
-                                {str1}
-                            </React.Fragment>
-                        }/>
+                        secondary={<React.Fragment>
+                            {str1}
+                        </React.Fragment>}/>
                     <AlertDialogNew/>
                 </ListItem>
         }
@@ -183,29 +182,131 @@ function LinkList() {
     }
 
 
+    let id = 100;
+
+    function SubmitALinkComp() {
+
+
+        const textField = useRef(null);
+
+        const [open, setOpen] = React.useState(false);
+
+        const [name, setName] = React.useState("");
+        const [url, setUrl] = React.useState("");
+
+        const handleClickOpen = () => {
+            setOpen(true);
+        };
+
+        const handleClose = () => {
+            setOpen(false);
+        };
+
+
+        const handleAddClose = () => {
+            let title = name;
+            id++;
+            let points = 0;
+            const article = {id: id, title: title, points: points};
+            console.log(article);
+            postsHolder.unshift(article);
+            setPosts(postsHolder);
+            setOpen(false);
+        };
+
+
+        const handleChange = (event) => {
+            let text = event.target.value;
+            setName(text);
+            console.log(text);
+
+        };
+        const handleURLChange = (event) => {
+            let text = event.target.value;
+            setUrl(text);
+            console.log(text);
+
+        };
+
+        return (<div>
+            <Dialog open={open} onClose={handleClose}>
+                <DialogTitle>Add a Link</DialogTitle>
+                <DialogContent>
+                    <DialogContentText>
+                        Website info:
+                    </DialogContentText>
+                    <TextField
+                        autoFocus
+                        margin="dense"
+                        id="name"
+                        label="Website Name"
+                        type="text"
+                        value={name}
+                        fullWidth
+                        variant="standard"
+                        ref={textField}
+                        onChange={handleChange}
+                    />
+                    <TextField
+                        autoFocus
+                        margin="dense"
+                        id="url"
+                        label="URL"
+                        type="url"
+                        fullWidth
+                        variant="standard"
+                        value={url}
+                        onChange={handleURLChange}
+                    />
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleClose}>Cancel</Button>
+                    <Button onClick={handleAddClose}>Add</Button>
+                </DialogActions>
+            </Dialog>
+
+            <Grid container spacing={1}>
+                <Grid item xs={12} display="flex" justifyContent="center">
+                    <Paper variant="outlined">
+                        <Grid container spacing={0} alignItems="center" display="Flex" JustifyContent="Center">
+                            <Grid item xs={4}>
+                                <IconButton size="large">
+                                    <AddIcon fontSize="large" onClick={handleClickOpen}/>
+                                </IconButton>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <h1>Submit A <i style={{color: 'red'}}> Link</i></h1>
+                            </Grid>
+                        </Grid>
+                    </Paper>
+                </Grid>
+            </Grid>
+        </div>)
+    }
+
     const [page, setPage] = React.useState(1);
-    let index = (((3*page)-3));
+    let index = (((3 * page) - 3));
 
     const paginateHandler = (event) => {
         let page1 = event.target.innerText;
         setPage(page1);
-        index = (((3*page)-3));
+        index = (((3 * page) - 3));
 
     };
-    return (
-        <div>
+    return (<div>
             <List sx={{width: '100%', maxWidth: 360, bgcolor: 'background.paper'}}>
-
-            <MyListItem index={index}/>
-            <Divider variant="inset" component="li"/>
-            <MyListItem index={index + 1}/>
-            <Divider variant="inset" component="li"/>
-            <MyListItem index={index + 2}/>
-        </List>
+                <SubmitALinkComp/>
+                <MyListItem index={index}/>
+                <Divider variant="inset" component="li"/>
+                <MyListItem index={index + 1}/>
+                <Divider variant="inset" component="li"/>
+                <MyListItem index={index + 2}/>
+            </List>
             <Pagination count={10} page={page} onChange={paginateHandler}/>
         </div>
 
 
     );
 }
+
 export default LinkList;
