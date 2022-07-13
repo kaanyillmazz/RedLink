@@ -19,7 +19,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import {useRef} from "react";
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
-import EditIcon from '@mui/icons-material/Edit';
+import Stack from '@mui/material/Stack';
 
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
@@ -225,7 +225,6 @@ function LinkList() {
             let text = event.target.value;
             setUrl(text);
             console.log(text);
-
         };
 
         return (<div>
@@ -288,7 +287,7 @@ function LinkList() {
     let index = (((3 * page) - 3));
 
     const paginateHandler = (event) => {
-        let page1 = event.target.innerText;
+        let page1 = parseInt(event.target.innerText);
         setPage(page1);
         index = (((3 * page) - 3));
 
@@ -302,10 +301,11 @@ function LinkList() {
                 <Divider variant="inset" component="li"/>
                 <MyListItem index={index + 2}/>
             </List>
-            <Pagination count={10} page={page} onChange={paginateHandler}/>
+
+            <Stack spacing={2}>
+                <Pagination count={33} variant="outlined" color="secondary" page={page} onChange={paginateHandler} />
+            </Stack>
         </div>
-
-
     );
 }
 
