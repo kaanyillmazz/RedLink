@@ -60,8 +60,7 @@ const AlertDialogNew = ({show}) => {
                     </Button>
                 </DialogActions>
             </Dialog>
-        </div>
-    );
+        </div>);
 
 
 }
@@ -81,8 +80,7 @@ function AlertDialog(props) {
         setOpen(false);
     };
 
-    return (
-        <div>
+    return (<div>
             <Box sx={{'& > :not(style)': {m: 1}}}>
                 <Fab color="secondary" aria-label="edit">
                     <EditIcon onClick={handleClick}/>
@@ -110,8 +108,7 @@ function AlertDialog(props) {
                     </Button>
                 </DialogActions>
             </Dialog>
-        </div>
-    );
+        </div>);
 }
 
 export default AlertDialogNew;
