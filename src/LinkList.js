@@ -2,6 +2,7 @@ import React from 'react'
 import axios from "axios";
 
 import List from '@mui/material/List';
+import {Pagination, Typography} from '@mui/material';
 import ListItem from '@mui/material/ListItem';
 import Divider from '@mui/material/Divider';
 import ListItemText from '@mui/material/ListItemText';
@@ -22,6 +23,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
 
 import Button from "@mui/material/Button";
+import Paginator from "./Pagination";
 
 const client = axios.create({
     baseURL: "https://mockend.com/kaanyillmazz/redlink/posts"
@@ -181,16 +183,29 @@ function LinkList() {
     }
 
 
-    
-    return (
-        <List sx={{width: '100%', maxWidth: 360, bgcolor: 'background.paper'}}>
+    const [page, setPage] = React.useState(1);
+    let index = (((3*page)-3));
 
-            <MyListItem index={0}/>
+    const paginateHandler = (event) => {
+        let page1 = event.target.innerText;
+        setPage(page1);
+        index = (((3*page)-3));
+
+    };
+    return (
+        <div>
+            <List sx={{width: '100%', maxWidth: 360, bgcolor: 'background.paper'}}>
+
+            <MyListItem index={index}/>
             <Divider variant="inset" component="li"/>
-            <MyListItem index={1}/>
+            <MyListItem index={index + 1}/>
             <Divider variant="inset" component="li"/>
-            <MyListItem index={2}/>
+            <MyListItem index={index + 2}/>
         </List>
+            <Pagination count={10} page={page} onChange={paginateHandler}/>
+        </div>
+
+
     );
 }
 export default LinkList;

@@ -55,7 +55,7 @@ root.render(<React.StrictMode>
 
     <FloatingActionButtons/>
 
-    <Paginator/>
+
 
 
 </React.StrictMode>);
