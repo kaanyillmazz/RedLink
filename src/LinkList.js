@@ -40,9 +40,8 @@ let postsHolder = [obj1, obj2, obj3];
 
 function LinkList() {
 
-    const [open, setOpen] = React.useState(false);
-    const [posts, setPosts] = React.useState([]);
-    const [post, setPost] = React.useState([]);
+
+    const [posts, setPosts] = React.useState(postsHolder);
 
 
     React.useEffect(() => {
@@ -59,11 +58,11 @@ function LinkList() {
     console.log(posts);
     console.log(posts.at(0));
 
-    window.sessionStorage.setItem('posts', JSON.stringify(posts));
-
     const MyListItem = ({index}) => {
-        const AlertDialogNew = ({show}) => {
-            const [open, setOpen] = React.useState(false);
+        const [open, setOpen] = React.useState(false);
+        const [show, setShow] = React.useState(false);
+        const AlertDialogNew = () => {
+
             const handleClick = () => {
                 setOpen(true);
             };
@@ -104,60 +103,45 @@ function LinkList() {
         }
 
         const handleFocusEnter = () => {
-            setOpen(true);
+            setShow(true)
         };
         const handleFocusLeave = () => {
-            setOpen(false);
+            setShow(false);
         };
-        const myObject = postsHolder.at(index);
-        const [open, setOpen] = React.useState(false);
-        const [post, setPost] = React.useState(myObject);
 
         const likeHandler = async () => {
+            let post = posts[index];
             const id = post.id;
-            const article = {id: id, points: post.points + 1, title: post.title};
+            const points = post.points;
+            const title = post.title;
+            const article = {id: id, title: title, points: points + 1};
             const response = await client.put(`/${id}`, article);
-            response.data = {id: id, points: post.points + 1, title: post.title}
-            postsHolder[index] = response.data;
-            window.sessionStorage.clear();
-            window.sessionStorage.setItem('posts', JSON.stringify(postsHolder));
-            setPost(response.data);
-
-
-
+            postsHolder[index] = article;
+            setPosts(postsHolder);
         };
 
         const dislikeHandler = async () => {
-            const id = post.id;
-            const article = {id: id, points: post.points - 1, title: post.title};
+            const id = posts[index].id;
+            const points = posts[index].points
+            const title = posts[index].title
+            const article = {id: id,  title: title, points: points - 1};
             const response = await client.put(`/${id}`, article);
-            response.data = {id: id, points: post.points - 1, title: post.title}
-            postsHolder[index] = response.data;
-            window.sessionStorage.clear();
-            window.sessionStorage.setItem('posts', JSON.stringify(postsHolder));
-            setPost(response.data);
+            postsHolder[index] = article;
+            setPosts(postsHolder);
 
         };
 
         const deleteHandler = async () => {
-            const id = post.id;
+            const id = posts[index].id;
             const response = await client.delete(`/${id}`);
-            postsHolder[index] = response.data;
-            window.sessionStorage.clear();
-            window.sessionStorage.setItem('posts', JSON.stringify(postsHolder));
-            setPost(response.data);
-
+            let value0 = posts[index];
+            postsHolder = postsHolder.filter(item => item !== value0)
+            setPosts(postsHolder);
         };
 
-
-        let localHolder = JSON.parse(window.sessionStorage.getItem('posts'));
-let post1 = localHolder.at(index);
-
-
-
         let ListItem0;
-        if (post1) {
-            let str = post1.title;
+        if (posts[index]) {
+            let str = posts[index].title;
             let str1 = "https://" + str + ".com"
             ListItem0 =
                 <ListItem alignItems="flex-start" onMouseEnter={handleFocusEnter} onMouseLeave={handleFocusLeave}>
@@ -177,7 +161,7 @@ let post1 = localHolder.at(index);
                         <Grid container textAlign="center" justifyContent="center"
                               style={{minHeight: 80, maxHeight: 80, minWidth: 80}}>
                             <Grid item>
-                                <h1 style={{fontSize: "medium"}}>{post1.points}</h1>
+                                <h1 style={{fontSize: "medium"}}>{posts[index].points}</h1>
                                 <h1 style={{fontSize: "medium"}}>Points</h1>
                             </Grid>
                         </Grid>
@@ -189,7 +173,7 @@ let post1 = localHolder.at(index);
                                 {str1}
                             </React.Fragment>
                         }/>
-                    <AlertDialogNew show={open}/>
+                    <AlertDialogNew/>
                 </ListItem>
         }
 
