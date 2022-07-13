@@ -11,9 +11,18 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import {useRef} from "react";
 
 function SubmitALinkComp() {
+
+
+    const textField = useRef(null);
+
     const [open, setOpen] = React.useState(false);
+
+    const [name, setName] = React.useState("value trial");
+    const [url, setUrl] = React.useState("url trial");
+
     const handleClickOpen = () => {
         setOpen(true);
     };
@@ -21,6 +30,20 @@ function SubmitALinkComp() {
     const handleClose = () => {
         setOpen(false);
     };
+
+    const handleChange = (event) => {
+        let text = event.target.value;
+        setName(text);
+        console.log(text);
+
+    };
+    const handleURLChange = (event) => {
+        let text = event.target.value;
+        setUrl(text);
+        console.log(text);
+
+    };
+
 
     return (
 <div>
@@ -36,8 +59,11 @@ function SubmitALinkComp() {
                 id="name"
                 label="Website Name"
                 type="text"
+                value={name}
                 fullWidth
                 variant="standard"
+                ref={textField}
+                onChange={handleChange}
             />
             <TextField
                 autoFocus
@@ -47,6 +73,8 @@ function SubmitALinkComp() {
                 type="url"
                 fullWidth
                 variant="standard"
+                value={url}
+                onChange={handleURLChange}
             />
         </DialogContent>
         <DialogActions>
