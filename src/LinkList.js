@@ -20,6 +20,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import {useRef} from "react";
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import Stack from '@mui/material/Stack';
+import SortSelect from "./Sort";
 
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
@@ -295,6 +296,7 @@ function LinkList() {
     return (<div>
             <List sx={{width: '100%', maxWidth: 360, bgcolor: 'background.paper'}}>
                 <SubmitALinkComp/>
+                <SortSelect/>
                 <MyListItem index={index}/>
                 <Divider variant="inset" component="li"/>
                 <MyListItem index={index + 1}/>
