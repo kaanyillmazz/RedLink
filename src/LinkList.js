@@ -44,24 +44,32 @@ let obj2 = new obj(2, "Loading...", "0");
 let obj3 = new obj(3, "Loading...", "0");
 
 let postsHolder = [obj1, obj2, obj3];
+let postHolderDefault = [obj1, obj2, obj3];
 
 function LinkList() {
-
-
-
+    const [sorting, setSorting] = React.useState("Default");
 
     function SortSelect() {
-        const [sort, setSort] = React.useState("");
 
         const handleChange = (event) => {
             let value = event.target.value.toString();
             let value0 = value.toString();
+            if(sorting === "Default"){
+                console.log("copying");
+                postHolderDefault = JSON.parse(JSON.stringify(postsHolder));
+                console.log(postHolderDefault);
+            }
             if(value0 === "MostPoints"){
                 postsHolder.sort(function(a, b){return b.points - a.points});
+                console.log(postHolderDefault);
             } else if (value0 === "LeastPoints") {
                 postsHolder.sort(function(a, b){return a.points - b.points});
+            } else if (value0 === "Default") {
+                console.log("getting back!");
+                postsHolder = JSON.parse(JSON.stringify(postHolderDefault));
+                console.log(postsHolder);
             }
-            setSort(value0);
+            setSorting(value0);
         };
 
         return (
@@ -71,7 +79,7 @@ function LinkList() {
                         Sort
                     </InputLabel>
                     <NativeSelect
-                        value={sort}
+                        value={sorting}
                         onChange={handleChange}
                     >
                         <option value="Default">Default</option>
@@ -82,9 +90,6 @@ function LinkList() {
             </Box>
         );
     }
-
-
-
 
     const [posts, setPosts] = React.useState(postsHolder);
 
@@ -100,8 +105,6 @@ function LinkList() {
     }, []);
 
 
-    console.log(posts);
-    console.log(posts.at(0));
 
     const MyListItem = ({index}) => {
         const [open, setOpen] = React.useState(false);
