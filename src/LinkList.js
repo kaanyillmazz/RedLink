@@ -21,6 +21,11 @@ import {useRef} from "react";
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import Stack from '@mui/material/Stack';
 import SortSelect from "./Sort";
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import NativeSelect from '@mui/material/NativeSelect';
 
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
@@ -41,6 +46,44 @@ let obj3 = new obj(3, "Loading...", "0");
 let postsHolder = [obj1, obj2, obj3];
 
 function LinkList() {
+
+
+
+
+    function SortSelect() {
+        const [sort, setSort] = React.useState("");
+
+        const handleChange = (event) => {
+            let value = event.target.value.toString();
+            let value0 = value.toString();
+            if(value0 === "MostPoints"){
+                postsHolder.sort(function(a, b){return b.points - a.points});
+            } else if (value0 === "LeastPoints") {
+                postsHolder.sort(function(a, b){return a.points - b.points});
+            }
+            setSort(value0);
+        };
+
+        return (
+            <Box sx={{ minWidth: 120 }}>
+                <FormControl fullWidth >
+                    <InputLabel variant="outlined">
+                        Sort
+                    </InputLabel>
+                    <NativeSelect
+                        value={sort}
+                        onChange={handleChange}
+                    >
+                        <option value="Default">Default</option>
+                        <option value="MostPoints">Most Points</option>
+                        <option value="LeastPoints">Least Points</option>
+                    </NativeSelect>
+                </FormControl>
+            </Box>
+        );
+    }
+
+
 
 
     const [posts, setPosts] = React.useState(postsHolder);

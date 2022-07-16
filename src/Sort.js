@@ -7,12 +7,15 @@ import Select from '@mui/material/Select';
 import NativeSelect from '@mui/material/NativeSelect';
 
 function SortSelect() {
-    const [sort, setSort] = React.useState("Default");
+    const [sort, setSort] = React.useState("");
 
     const handleChange = (event) => {
-        console.log(event.target.value);
-        let value = event.target.value;
-        setSort(value);
+
+        let value = event.target.value.toString();
+        let value0 = value.toString();
+        setSort(value0);
+        console.log(value0);
+        console.log(sort);
     };
 
     return (
@@ -26,8 +29,8 @@ function SortSelect() {
                     onChange={handleChange}
                 >
                     <option value="Default">Default</option>
-                    <option value="Most Points">Most Points</option>
-                    <option value="Least Points">Least Points</option>
+                    <option value="MostPoints">Most Points</option>
+                    <option value="LeastPoints">Least Points</option>
                 </NativeSelect>
             </FormControl>
         </Box>
