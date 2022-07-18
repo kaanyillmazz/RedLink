@@ -1,3 +1,6 @@
+# About
+This project was implemented with React and Metarial ui. For Database I used Mockend and Axios. Mockend doesn't let server side changes so all changes to database are client side.
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
@@ -30,6 +33,9 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-# Purpose of the project
 
-#KNOWN BUGS
+# KNOWN BUGS
+## Default sorting doesn't work
+## UI only updates after you hover over an item
+## Link submit doesn't really take url (because of mockend limitations)
+## you can like and dislike indefinitely
