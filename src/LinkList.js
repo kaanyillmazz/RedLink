@@ -73,16 +73,15 @@ function LinkList() {
         };
 
         return (
-            <Box sx={{ minWidth: 120 }}>
+            <Box mt={1}  sx={{ minWidth: 120 }}>
                 <FormControl fullWidth >
-                    <InputLabel variant="outlined">
+                    <InputLabel variant="standard">
                         Sort
                     </InputLabel>
                     <NativeSelect
                         value={sorting}
                         onChange={handleChange}
                     >
-                        <option value="Default">Default</option>
                         <option value="MostPoints">Most Points</option>
                         <option value="LeastPoints">Least Points</option>
                     </NativeSelect>
