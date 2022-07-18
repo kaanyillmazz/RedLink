@@ -1,7 +1,8 @@
+import * as React from 'react';
 import axios from "axios";
 
 import List from '@mui/material/List';
-import {Pagination, Typography} from '@mui/material';
+import {Pagination} from '@mui/material';
 import ListItem from '@mui/material/ListItem';
 import Divider from '@mui/material/Divider';
 import ListItemText from '@mui/material/ListItemText';
@@ -9,7 +10,6 @@ import {Box, Grid, Paper} from '@mui/material'
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
 import {IconButton} from '@mui/material'
-import * as React from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
@@ -20,13 +20,9 @@ import DialogTitle from '@mui/material/DialogTitle';
 import {useRef} from "react";
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import Stack from '@mui/material/Stack';
-import SortSelect from "./Sort";
 import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
 import NativeSelect from '@mui/material/NativeSelect';
-
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
@@ -34,6 +30,7 @@ const client = axios.create({
     baseURL: "https://mockend.com/kaanyillmazz/redlink/posts"
 });
 
+//dummy placeholder links to show before posts are initialized from server
 let obj = function (id, title, points) {
     this.id = id;
     this.title = title;
@@ -43,45 +40,39 @@ let obj1 = new obj(1, "Loading...", "0");
 let obj2 = new obj(2, "Loading...", "0");
 let obj3 = new obj(3, "Loading...", "0");
 
+//this array holds links
 let postsHolder = [obj1, obj2, obj3];
 let postHolderDefault = [obj1, obj2, obj3];
 
 function LinkList() {
+    //sorting state
     const [sorting, setSorting] = React.useState("Default");
 
     function SortSelect() {
-
+        //this is sorting component
         const handleChange = (event) => {
             let value = event.target.value.toString();
             let value0 = value.toString();
-            if(sorting === "Default"){
-                console.log("copying");
-                postHolderDefault = JSON.parse(JSON.stringify(postsHolder));
-                console.log(postHolderDefault);
-            }
-            if(value0 === "MostPoints"){
-                postsHolder.sort(function(a, b){return b.points - a.points});
-                console.log(postHolderDefault);
+            if (sorting === "Default") {
+                //save default sort (currently not working)
+                postHolderDefault = JSON.parse(JSON.stringify(postsHolder)); }
+            if (value0 === "MostPoints") {
+                //sort from most points
+                postsHolder.sort(function (a, b) { return b.points - a.points });
             } else if (value0 === "LeastPoints") {
-                postsHolder.sort(function(a, b){return a.points - b.points});
+                //sort from least points
+                postsHolder.sort(function (a, b) { return a.points - b.points });
             } else if (value0 === "Default") {
-                console.log("getting back!");
-                postsHolder = JSON.parse(JSON.stringify(postHolderDefault));
-                console.log(postsHolder);
-            }
-            setSorting(value0);
+                //get back the default sort
+                postsHolder = JSON.parse(JSON.stringify(postHolderDefault)); }
+            setSorting(value0);  //set the state to refresh frontend
         };
 
-        return (
-            <Box mt={1}  sx={{ minWidth: 120 }}>
-                <FormControl fullWidth >
-                    <InputLabel variant="standard">
-                        Sort
-                    </InputLabel>
-                    <NativeSelect
-                        value={sorting}
-                        onChange={handleChange}
-                    >
+        return ( //return the component
+            <Box mt={1} sx={{minWidth: 120}}>
+                <FormControl fullWidth>
+                    <InputLabel variant="standard"> Sort </InputLabel>
+                    <NativeSelect value={sorting} onChange={handleChange}>
                         <option value="MostPoints">Most Points</option>
                         <option value="LeastPoints">Least Points</option>
                     </NativeSelect>
@@ -90,9 +81,11 @@ function LinkList() {
         );
     }
 
+
     const [posts, setPosts] = React.useState(postsHolder);
 
 
+    //get the links from the server
     React.useEffect(() => {
         async function getPosts() {
             const response = await client.get("");
@@ -104,23 +97,20 @@ function LinkList() {
     }, []);
 
 
-
     const MyListItem = ({index}) => {
+        //get the link according to index
         const [open, setOpen] = React.useState(false);
         const [show, setShow] = React.useState(false);
         const AlertDialogNew = () => {
 
-            const handleClick = () => {
-                setOpen(true);
-            };
-            const handleClose = () => {
-                setOpen(false);
-            };
+            const handleClick = () => { setOpen(true); };
+            const handleClose = () => { setOpen(false);};
             const handleDelete = () => {
                 deleteHandler();
-                setOpen(false);
-            };
+                setOpen(false); };
 
+
+            //disappearing delete box shows when you hover on a link
             let box;
             if (show) {
                 box = <Box sx={{'& > :not(style)': {m: 1}}}>
@@ -131,7 +121,7 @@ function LinkList() {
             }
             return (<div>
                 {box}
-                <Dialog
+                <Dialog //delete dialog shows up when open is true
                     open={open}
                     onClose={handleClose}
                     aria-labelledby="alert-dialog-title"
@@ -154,6 +144,7 @@ function LinkList() {
             setShow(false);
         };
 
+        //handle likes (mocking database so no real changes on server)
         const likeHandler = async () => {
             let post = posts[index];
             const id = post.id;
@@ -165,6 +156,7 @@ function LinkList() {
             setPosts(postsHolder);
         };
 
+        //handle dislikes (mocking database so no real changes on server)
         const dislikeHandler = async () => {
             const id = posts[index].id;
             const points = posts[index].points
@@ -176,24 +168,25 @@ function LinkList() {
 
         };
 
+        //handle delete operation (mocking database so no real changes on server)
         const deleteHandler = async () => {
             const id = posts[index].id;
             const response = await client.delete(`/${id}`);
             let value0 = posts[index];
-            postsHolder = postsHolder.filter(item => item !== value0)
+            postsHolder = postsHolder.filter(item => item !== value0) //filter out selected link from array
             setPosts(postsHolder);
         };
 
         let ListItem0;
-        if (posts[index]) {
-            let str = posts[index].title;
-            let str1 = "https://" + str + ".com"
+        if (posts[index]) { //return this if posts exists
+            let linkName = posts[index].title; //get the name of link
+            let linkAdress = "https://" + linkName + ".com"  //generate link (because there is no field available in database)
+            let pointValue = posts[index].points;
             ListItem0 =
                 <ListItem alignItems="flex-start" onMouseEnter={handleFocusEnter} onMouseLeave={handleFocusLeave}>
                     <div>
                         <Fab onClick={function () {
-                            likeHandler();
-                        }}
+                            likeHandler(); }}
                              size="small"
                              style={{position: 'absolute', right: 0, bottom: 5, height: 20, width: 20, minHeight: 20}}>
                             <KeyboardArrowUpIcon/>
@@ -210,46 +203,36 @@ function LinkList() {
                         <Grid container textAlign="center" justifyContent="center"
                               style={{minHeight: 80, maxHeight: 80, minWidth: 80}}>
                             <Grid item>
-                                <h1 style={{fontSize: "medium"}}>{posts[index].points}</h1>
+                                <h1 style={{fontSize: "medium"}}>{pointValue}</h1>
                                 <h1 style={{fontSize: "medium"}}>Points</h1>
                             </Grid>
                         </Grid>
                     </Paper>
                     <ListItemText
-                        primary={str}
+                        primary={linkName}
                         secondary={<React.Fragment>
-                            {str1}
+                            {linkAdress}
                         </React.Fragment>}/>
                     <AlertDialogNew/>
                 </ListItem>
         }
-
         return ListItem0;
     }
 
 
-    let id = 100;
-
-    function SubmitALinkComp() {
-
+    let id = 100; //id required for creating new links
+    function SubmitALinkComp() { //component for sending new links
 
         const textField = useRef(null);
 
         const [open, setOpen] = React.useState(false);
-
         const [name, setName] = React.useState("");
         const [url, setUrl] = React.useState("");
 
-        const handleClickOpen = () => {
-            setOpen(true);
-        };
+        const handleClickOpen = () => { setOpen(true); };
+        const handleClose = () => { setOpen(false); };
 
-        const handleClose = () => {
-            setOpen(false);
-        };
-
-
-        const handleAddClose = () => {
+        const handleAddClose = () => { //handler for adding a link and then closing the dialog
             let title = name;
             id++;
             let points = 0;
@@ -260,17 +243,13 @@ function LinkList() {
             setOpen(false);
         };
 
-
-        const handleChange = (event) => {
+        const handleChange = (event) => { //set the name of the link
             let text = event.target.value;
             setName(text);
-            console.log(text);
-
         };
-        const handleURLChange = (event) => {
+        const handleURLChange = (event) => { //set the url of the link (currently not working)
             let text = event.target.value;
             setUrl(text);
-            console.log(text);
         };
 
         return (<div>
@@ -329,10 +308,11 @@ function LinkList() {
         </div>)
     }
 
+    //state for pagination
     const [page, setPage] = React.useState(1);
     let index = (((3 * page) - 3));
 
-    const paginateHandler = (event) => {
+    const paginateHandler = (event) => { //handles when a page number is clicked
         let page1 = parseInt(event.target.innerText);
         setPage(page1);
         index = (((3 * page) - 3));
@@ -348,9 +328,8 @@ function LinkList() {
                 <Divider variant="inset" component="li"/>
                 <MyListItem index={index + 2}/>
             </List>
-
             <Stack spacing={2}>
-                <Pagination count={33} variant="outlined" color="secondary" page={page} onChange={paginateHandler} />
+                <Pagination count={33} variant="outlined" color="secondary" page={page} onChange={paginateHandler}/>
             </Stack>
         </div>
     );

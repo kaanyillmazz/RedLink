@@ -1,9 +1,7 @@
 import React from 'react';
-
 import {Grid} from '@mui/material'
 import {Divider} from '@mui/material'
 import {Box} from '@mui/material'
-
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import LinkList from "./LinkList"
