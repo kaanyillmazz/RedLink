@@ -1,5 +1,5 @@
 # About
-This project was implemented with React and Metarial ui. Created with node.js. For Database I used Mockend and Axios. Mockend doesn't let server side changes so all changes to database are client side. To start first build the project from dependancies. For Redux version without Axios check: [BLink](https://github.com/kaanyillmazz/BLink).
+This project was implemented with React and Metarial ui. Created with node.js. For Database I used Mockend and Axios. Mockend doesn't let server side changes so all changes to database are client side. To start first build the project from dependancies. For Redux version without Axios check here: [BLink](https://github.com/kaanyillmazz/BLink).
 
 # Getting Started with Create React App
 
