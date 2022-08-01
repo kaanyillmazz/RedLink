@@ -3,7 +3,7 @@ This project was implemented with React and Metarial ui. \
 Created with node.js. For Database I used Mockend and Axios. \
 Mockend doesn't let server side changes so all changes to database are client side. \
 To start first build the project from dependancies. \
-For Redux version without Axios check here: [BLink](https://github.com/kaanyillmazz/BLink). \
+For Redux version without Axios check here: [BLink](https://github.com/kaanyillmazz/BLink). 
 
 
 ## KNOWN BUGS ON THIS VERSION
